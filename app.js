@@ -87,7 +87,7 @@ app.speechHandler = function(text, id, cb) {
       cb(false)
     } else {
       console.log(JSON.stringify(body))
-      if(msg.result.parameters.due !== "" && msg.result.parameters.subject !== "")
+      if(body.result.parameters.due !== "" && body.result.parameters.subject !== "")
       {
 
       }
