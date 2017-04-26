@@ -9,7 +9,7 @@ var express        = require('express'),
       "key":fs.readFileSync("/etc/letsencrypt/keys/0000_key-certbot.pem"),
       "cert":fs.readFileSync('/etc/letsencrypt/live/aaronfranco.tk/fullchain.pem')
     },
-    url            = "mongodb://aarongfranco:4gFFr4nc0@cluster0-shard-00-00-ctdrj.mongodb.net:27017,cluster0-shard-00-01-ctdrj.mongodb.net:27017,cluster0-shard-00-02-ctdrj.mongodb.net:27017/<DATABASE>?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin",
+    url            = "mongodb://aarongfranco:4gFFr4nc0@cluster0-shard-00-00-ctdrj.mongodb.net:27017,cluster0-shard-00-01-ctdrj.mongodb.net:27017,cluster0-shard-00-02-ctdrj.mongodb.net:27017/codementor?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin",
     MongoClient    = require('mongodb').MongoClient
 
 // accept JSON bodies.
