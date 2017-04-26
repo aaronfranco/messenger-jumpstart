@@ -115,9 +115,9 @@ app.findDocument = function(sessionID, db, callback) {
   // Get the documents collection
   var collection = db.collection('homework');
   // Find some documents
-  collection.findOne({'session': sessionID}).toArray(function(err, docs) {
-    if(err) throw err;
-    callback(docs);
+  collection.findOne({'session': sessionID}, function(err, doc) {
+    if(err){ throw err; }
+    callback(doc);
   });
 }
 app.updateHomework = function(data,sessionID, db, callback) {
