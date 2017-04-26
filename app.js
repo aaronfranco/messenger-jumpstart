@@ -21,9 +21,9 @@ app.post('/fb', function(req, res){
   var text = req.body.entry[0].messaging[0].message.text;
   console.log(JSON.stringify(req.body))
   // here we add the logic to insert the user data into the database
-  findDocuments(db, function(doc) {
+  app.findDocuments(db, function(doc) {
     if(doc === null){
-      initUserHomework({session:id, homework:[]}, db, function(doc){
+      app.initUserHomework({session:id, homework:[]}, db, function(doc){
         console.log("user data saved in database.")
       })
     }
@@ -91,7 +91,7 @@ app.speechHandler = function(text, id, cb) {
     }
   });
 }
-var initUserHomework = function(data, db, callback) {
+app.initUserHomework = function(data, db, callback) {
   // Get the documents collection
   var collection = db.collection('homework');
   // Insert some documents
@@ -100,7 +100,7 @@ var initUserHomework = function(data, db, callback) {
     callback(result);
   });
 }
-var findDocument = function(sessionID, db, callback) {
+app.findDocument = function(sessionID, db, callback) {
   // Get the documents collection
   var collection = db.collection('homework');
   // Find some documents
@@ -109,7 +109,7 @@ var findDocument = function(sessionID, db, callback) {
     callback(docs);
   });
 }
-var updateHomework = function(data,sessionID, db, callback) {
+app.updateHomework = function(data,sessionID, db, callback) {
   // Get the documents collection
   var collection = db.collection('homework');
   // Update document where a is 2, set b equal to 1
