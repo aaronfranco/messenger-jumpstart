@@ -21,7 +21,7 @@ app.post('/fb', function(req, res){
   var text = req.body.entry[0].messaging[0].message.text;
   console.log(JSON.stringify(req.body))
   // here we add the logic to insert the user data into the database
-  app.findDocuments(db, function(doc) {
+  app.findDocument(db, function(doc) {
     if(doc === null){
       app.initUserHomework({session:id, homework:[]}, db, function(doc){
         console.log("user data saved in database.")
