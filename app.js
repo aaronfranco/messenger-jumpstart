@@ -20,6 +20,14 @@ app.post('/fb', function(req, res){
   var id = req.body.entry[0].messaging[0].sender.id;
   var text = req.body.entry[0].messaging[0].message.text;
   console.log(JSON.stringify(req.body))
+  // here we add the logic to insert the user data into the database
+  findDocuments(db, function(doc) {
+    if(doc === null){
+      initUserHomework({session:id, homework:[]}, db, function(doc){
+        console.log("user data saved in database.")
+      })
+    }
+  });
   app.speechHandler(text, id, function(speech){
     app.messageHandler(speech, id, function(result){
       console.log("Async Handled: " + result)
@@ -75,10 +83,43 @@ app.speechHandler = function(text, id, cb) {
       cb(false)
     } else {
       console.log(JSON.stringify(body))
+      if(msg.result.parameters.due !== "" && msg.result.parameters.subject !== "")
+      {
+
+      }
       cb(body.result.fulfillment.speech);
     }
   });
 }
+var initUserHomework = function(data, db, callback) {
+  // Get the documents collection
+  var collection = db.collection('homework');
+  // Insert some documents
+  collection.insertOne(data, function(err, result) {
+    if(err) throw err;
+    callback(result);
+  });
+}
+var findDocument = function(sessionID, db, callback) {
+  // Get the documents collection
+  var collection = db.collection('homework');
+  // Find some documents
+  collection.findOne({'session': sessionID}).toArray(function(err, docs) {
+    if(err) throw err;
+    callback(docs);
+  });
+}
+var updateHomework = function(data,sessionID, db, callback) {
+  // Get the documents collection
+  var collection = db.collection('homework');
+  // Update document where a is 2, set b equal to 1
+  collection.updateOne({ session : sessionID }
+    , { $push: { homework : data} }, function(err, result) {
+      if(err) throw err;
+    callback(result);
+  });
+}
+
 
 // verify token to subscribe
 app.get('/fb', function(req, res) {
