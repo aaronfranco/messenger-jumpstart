@@ -28,7 +28,7 @@ app.post('/fb', function(req, res){
     if(err) {
       console.log(err)
     }
-    app.findDocument(db, function(doc) {
+    app.findDocument(id, db, function(doc) {
       console.log("Document returned from DB")
       console.log(doc)
       if(doc === null){
