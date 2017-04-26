@@ -24,6 +24,8 @@ app.post('/fb', function(req, res){
   MongoClient.connect(url, function(err, db) {
     if(err) throw err;
     app.findDocument(db, function(doc) {
+      console.log("Document returned from DB")
+      console.log(doc)
       if(doc === null){
         app.initUserHomework({session:id, homework:[]}, db, function(doc){
           console.log("user data saved in database.")
