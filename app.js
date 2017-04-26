@@ -22,7 +22,9 @@ app.post('/fb', function(req, res){
   console.log(JSON.stringify(req.body))
   // here we add the logic to insert the user data into the database
   MongoClient.connect(url, function(err, db) {
-    if(err) throw err;
+    if(err) {
+      console.log(err)
+    }
     app.findDocument(db, function(doc) {
       console.log("Document returned from DB")
       console.log(doc)
