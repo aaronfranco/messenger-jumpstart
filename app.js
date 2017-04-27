@@ -116,7 +116,7 @@ app.speechHandler = function(text, id, cb) {
               listItemsArray.push(
                 {
                       "title": doc.homework[i].subject,
-                      "subtitle": doc.homeowrk[i].due
+                      "subtitle": doc.homework[i].due
                   }
               )
             }
