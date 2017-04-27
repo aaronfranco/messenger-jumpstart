@@ -122,7 +122,8 @@ app.speechHandler = function(text, id, cb) {
             }
             if(listItemsArray.length === 1){
               listItemsArray.push({
-                "title":"Add more assignments :)"
+                "title":"Add more assignments",
+                "subtitle":":)"
               })
             }
             console.log("PUSHING HOMEWORK")
