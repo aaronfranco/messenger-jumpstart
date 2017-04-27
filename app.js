@@ -121,7 +121,7 @@ app.speechHandler = function(text, id, cb) {
               )
             }
             console.log("PUSHING HOMEWORK")
-            console.log(listItemArray)
+            console.log(listItemsArray)
             app.sendListTemplate(listItemsArray, id, function(result){
               console.log("List template sent")
             })
