@@ -102,22 +102,27 @@ app.speechHandler = function(text, id, cb) {
           });
         }
       }else if(body.result.action === "list.homework"){
-        app.findDocument(id, db, function(doc){
-          db.close();
-          var iln = doc.homework.length;
-          var listItemsArray = [];
-          for(var i = 0; i < iln; i++){
-            listItemsArray.push(
-              {
-                    "title": doc.homework[i].subject,
-                    "subtitle": doc.homeowrk[i].due
-                }
-            )
+        MongoClient.connect(url, function(err, db) {
+          if(err) {
+            console.log(err)
           }
-          app.sendListTemplate(listItemsArray, id, function(result){
-            console.log("List template sent")
+          app.findDocument(id, db, function(doc){
+            db.close();
+            var iln = doc.homework.length;
+            var listItemsArray = [];
+            for(var i = 0; i < iln; i++){
+              listItemsArray.push(
+                {
+                      "title": doc.homework[i].subject,
+                      "subtitle": doc.homeowrk[i].due
+                  }
+              )
+            }
+            app.sendListTemplate(listItemsArray, id, function(result){
+              console.log("List template sent")
+            })
           })
-        })
+        });
       }
       cb(body.result.fulfillment.speech);
     }
