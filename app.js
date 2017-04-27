@@ -109,7 +109,6 @@ app.speechHandler = function(text, id, cb) {
           app.findDocument(id, db, function(doc){
             console.log("GOT DOCUMENT")
             console.log(doc)
-            db.close();
             var iln = doc.homework.length;
             var listItemsArray = [];
             for(var i = 0; i < iln; i++){
@@ -120,9 +119,12 @@ app.speechHandler = function(text, id, cb) {
                   }
               )
             }
+            console.log("PUSHING HOMEWORK")
+            console.log(listItemArray)
             app.sendListTemplate(listItemsArray, id, function(result){
               console.log("List template sent")
             })
+            db.close();
           })
         });
       }
