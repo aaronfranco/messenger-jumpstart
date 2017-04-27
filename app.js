@@ -22,18 +22,12 @@ app.post('/fb', function(req, res){
   console.log(JSON.stringify(req.body))
   // here we add the logic to insert the user data into the database
   MongoClient.connect(url, function(err, db) {
-    console.log("mongodb connected ")
-    console.log(db);
-    console.log(app.findDocument)
     if(err) {
       console.log(err)
     }
     app.findDocument(id, db, function(doc) {
-      console.log("Document returned from DB")
-      console.log(doc)
       if(doc === null){
         app.initUserHomework({session:id, homework:[]}, db, function(doc){
-          console.log("user data saved in database.")
           db.close();
         })
       }
@@ -96,7 +90,15 @@ app.speechHandler = function(text, id, cb) {
       console.log(JSON.stringify(body))
       if(body.result.parameters.due !== "" && body.result.parameters.subject !== "")
       {
-
+        // here we have enough information to  save our homework assignment to the database.
+        MongoClient.connect(url, function(err, db) {
+          if(err) {
+            console.log(err)
+          }
+          app.updateHomework({due:body.result.parameters.due, subject:body.result.parameters.subject}, id, db, function(doc){
+            db.close();
+          });
+        });
       }
       cb(body.result.fulfillment.speech);
     }
@@ -120,14 +122,14 @@ app.findDocument = function(sessionID, db, callback) {
     callback(doc);
   });
 }
-app.updateHomework = function(data,sessionID, db, callback) {
+app.updateHomework = function(data, sessionID, db, callback) {
   // Get the documents collection
   var collection = db.collection('homework');
   // Update document where a is 2, set b equal to 1
   collection.updateOne({ session : sessionID }
     , { $push: { homework : data} }, function(err, result) {
-      if(err) throw err;
-    callback(result);
+      if(err){ throw err;}
+      callback(result);
   });
 }
 
