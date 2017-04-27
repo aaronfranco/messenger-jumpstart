@@ -107,6 +107,8 @@ app.speechHandler = function(text, id, cb) {
             console.log(err)
           }
           app.findDocument(id, db, function(doc){
+            console.log("GOT DOCUMENT")
+            console.log(doc)
             db.close();
             var iln = doc.homework.length;
             var listItemsArray = [];
