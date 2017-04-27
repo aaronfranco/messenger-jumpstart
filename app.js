@@ -88,19 +88,72 @@ app.speechHandler = function(text, id, cb) {
       cb(false)
     } else {
       console.log(JSON.stringify(body))
-      if(body.result.parameters.due !== "" && body.result.parameters.subject !== "")
-      {
-        // here we have enough information to  save our homework assignment to the database.
-        MongoClient.connect(url, function(err, db) {
-          if(err) {
-            console.log(err)
-          }
-          app.updateHomework({due:body.result.parameters.due, subject:body.result.parameters.subject}, id, db, function(doc){
-            db.close();
+      if(body.result.action === "save"){
+        if(body.result.parameters.due !== "" && body.result.parameters.subject !== "")
+        {
+          // here we have enough information to  save our homework assignment to the database.
+          MongoClient.connect(url, function(err, db) {
+            if(err) {
+              console.log(err)
+            }
+            app.updateHomework({due:body.result.parameters.due, subject:body.result.parameters.subject}, id, db, function(doc){
+              db.close();
+            });
           });
-        });
+        }
+      }else if(body.result.action === "list.homework"){
+        app.findDocument(id, db, function(doc){
+          db.close();
+          var iln = doc.homework.length;
+          var listItemsArray = [];
+          for(var i = 0; i < iln; i++){
+            listItemsArray.push(
+              {
+                    "title": doc.homework[i].subject,
+                    "subtitle": doc.homeowrk[i].due
+                }
+            )
+          }
+          app.sendListTemplate(listItemsArray, id, function(result){
+            console.log("List template sent")
+          })
+        })
       }
       cb(body.result.fulfillment.speech);
+    }
+  });
+}
+app.sendListTemplate = function(list, id, callback){
+  var data = {
+    "recipient":{
+      "id":id
+    }, "message": {
+      "attachment": {
+        "type": "template",
+        "payload": {
+            "template_type": "list",
+            "top_element_style": "compact",
+            "elements": list
+          }
+        }
+      }
+    }
+  var reqObj = {
+    url: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {access_token:token},
+    method: 'POST',
+    json: data
+  };
+  console.log(JSON.stringify(reqObj))
+  request(reqObj, function(error, response, body) {
+    if (error) {
+      console.log('Error sending message: ', JSON.stringify(error));
+      cb(false)
+    } else if (response.body.error) {
+      console.log("API Error: " + JSON.stringify(response.body.error));
+      cb(false)
+    } else{
+      cb(true)
     }
   });
 }
