@@ -146,7 +146,7 @@ app.sendListTemplate = function(list, id, callback){
       }
     }
   console.log("SENDING LIST TEMPLATE")
-  consoel.log(data)
+  console.log(data)
   var reqObj = {
     url: 'https://graph.facebook.com/v2.6/me/messages',
     qs: {access_token:token},
