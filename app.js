@@ -4,7 +4,7 @@ var express        = require('express'),
     request        = require('request'),
     app            = express(),
     fs             = require('fs'),
-    token          = 'EAAGAkQmzIboBAG7F9PXHVRV8UL6tVWKMfGZAIZBU9VCbHZBRxZAvHKwi0oy8cDgcMFFGzIm30ZAVaNq0nfNdO4RyH7Uj1YfAV2gOa2BsIZB01zlozdmUyweCTASV0fOnKENYqxHqt07ZAb3IacwZAhZAfKQ9bINmeL4mZCLqDwu45FZCgZDZD',
+    token          = 'xxxxxxxxxxxxxxxxxxxxxxxx',
     sslOpts        = {
       "key":fs.readFileSync("/etc/letsencrypt/keys/0000_key-certbot.pem"),
       "cert":fs.readFileSync('/etc/letsencrypt/live/aaronfranco.tk/fullchain.pem')
